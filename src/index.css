@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-risk-low: #16a34a;
+  --color-risk-moderate: #f59e0b;
+  --color-risk-high: #dc2626;
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+}
+
+body {
+  @apply bg-gray-50 text-gray-900 antialiased;
+  -webkit-tap-highlight-color: transparent;
+}

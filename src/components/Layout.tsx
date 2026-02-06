@@ -1,0 +1,59 @@
+import { NavLink, Outlet } from 'react-router-dom'
+import { scoreRegistry } from '../scores/registry'
+
+export default function Layout() {
+  return (
+    <div className="mx-auto flex min-h-dvh max-w-lg flex-col bg-gray-50">
+      {/* Header */}
+      <header className="sticky top-0 z-30 bg-white/80 px-4 py-3 backdrop-blur-md">
+        <NavLink to="/" className="text-xl font-black tracking-tight text-gray-900">
+          Cardio<span className="text-primary">Score</span>
+        </NavLink>
+      </header>
+
+      {/* Content */}
+      <main className="flex-1 px-4 pb-24">
+        <Outlet />
+      </main>
+
+      {/* Bottom Nav */}
+      <nav className="fixed bottom-0 left-0 right-0 z-30 border-t border-gray-200 bg-white/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-lg items-stretch justify-around">
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              `flex flex-1 flex-col items-center gap-0.5 py-2 text-xs font-medium transition-colors ${
+                isActive ? 'text-primary' : 'text-gray-400'
+              }`
+            }
+          >
+            <span className="text-lg">🏠</span>
+            Accueil
+          </NavLink>
+          {scoreRegistry.map((s) => (
+            <NavLink
+              key={s.id}
+              to={`/score/${s.id}`}
+              className={({ isActive }) =>
+                `flex flex-1 flex-col items-center gap-0.5 py-2 text-xs font-medium transition-colors ${
+                  isActive ? 'text-primary' : 'text-gray-400'
+                }`
+              }
+            >
+              <span className="text-lg">{s.icon}</span>
+              {s.shortName}
+            </NavLink>
+          ))}
+        </div>
+      </nav>
+
+      {/* Disclaimer */}
+      <div className="fixed bottom-16 left-0 right-0 z-20 pointer-events-none">
+        <p className="mx-auto max-w-lg px-4 text-center text-[10px] text-gray-300">
+          Usage informatif uniquement — ne remplace pas le jugement clinique
+        </p>
+      </div>
+    </div>
+  )
+}
