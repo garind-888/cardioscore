@@ -2,6 +2,13 @@ import type { ReactNode } from 'react'
 
 export type RiskLevel = 'low' | 'moderate' | 'high'
 
+export interface DependsOnCondition {
+  key: string
+  value: boolean | string | number
+}
+
+export type DependsOn = DependsOnCondition | DependsOnCondition[]
+
 export interface NumberInputDef {
   type: 'number'
   key: string
@@ -12,6 +19,7 @@ export interface NumberInputDef {
   step: number
   placeholder?: string
   inputMode?: 'numeric' | 'decimal'
+  dependsOn?: DependsOn
 }
 
 export interface ToggleInputDef {
@@ -20,6 +28,7 @@ export interface ToggleInputDef {
   label: string
   description?: string
   points?: number
+  dependsOn?: DependsOn
 }
 
 export interface SegmentInputDef {
@@ -27,12 +36,14 @@ export interface SegmentInputDef {
   key: string
   label: string
   options: { value: string | number; label: string; description?: string }[]
+  dependsOn?: DependsOn
 }
 
 export type InputDefinition = NumberInputDef | ToggleInputDef | SegmentInputDef
 
 export interface ScoreResult {
   score: number
+  display?: string
   label?: string
   details?: Record<string, string | number>
 }
@@ -60,4 +71,13 @@ export interface ScoreDefinition {
     result: ScoreResult | null
   }>
   renderResult?: (result: ScoreResult, interpretation: Interpretation) => ReactNode
+}
+
+export function isDependsMet(
+  dependsOn: DependsOn | undefined,
+  values: Record<string, number | boolean | string | ''>,
+): boolean {
+  if (!dependsOn) return true
+  const deps = Array.isArray(dependsOn) ? dependsOn : [dependsOn]
+  return deps.some((d) => values[d.key] === d.value)
 }

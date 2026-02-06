@@ -7,6 +7,7 @@ import SegmentInput from '../components/inputs/SegmentInput'
 import ScoreCard from '../components/ScoreCard'
 import RiskBadge from '../components/RiskBadge'
 import type { ScoreResult, Interpretation } from '../types'
+import { isDependsMet } from '../types'
 import { interpretQtcWithSex } from '../scores/qtc/interpret'
 import { getFormulaAdvice } from '../scores/qtc/calculate'
 
@@ -46,6 +47,12 @@ export default function ScorePage() {
     return scoreDef.interpret(result)
   }, [scoreDef, result, values])
 
+  // Filter inputs based on dependsOn conditions
+  const visibleInputs = useMemo(() => {
+    if (!scoreDef) return []
+    return scoreDef.inputs.filter((input) => isDependsMet(input.dependsOn, values))
+  }, [scoreDef, values])
+
   if (!scoreDef) return <Navigate to="/" replace />
 
   const isQtc = scoreDef.id === 'qtc'
@@ -70,7 +77,7 @@ export default function ScorePage() {
             <QtcResultCard result={result} interpretation={interpretation} hr={values.hr as number} />
           ) : (
             <ScoreCard
-              score={result.score}
+              score={result.display ?? result.score}
               riskLevel={interpretation.riskLevel}
               label={interpretation.title}
               subtitle={interpretation.summary}
@@ -99,7 +106,7 @@ export default function ScorePage() {
 
       {/* Inputs */}
       <div className="flex flex-col gap-3">
-        {scoreDef.inputs.map((input) => {
+        {visibleInputs.map((input) => {
           switch (input.type) {
             case 'number':
               return (
