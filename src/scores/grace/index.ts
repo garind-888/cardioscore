@@ -1,4 +1,5 @@
 import type { ScoreDefinition } from '../../types'
+import { creatinineConversion } from '../../utils/units'
 import { calculateGrace } from './calculate'
 import { interpretGrace } from './interpret'
 
@@ -50,6 +51,7 @@ const graceScore: ScoreDefinition = {
       step: 0.1,
       inputMode: 'decimal',
       placeholder: 'Créat',
+      conversion: creatinineConversion,
     },
     {
       type: 'segment',

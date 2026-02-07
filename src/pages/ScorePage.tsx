@@ -1,5 +1,6 @@
-import { useCallback, useMemo, useState } from 'react'
-import { useParams, Navigate } from 'react-router-dom'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useParams, Navigate, useOutletContext } from 'react-router-dom'
+import type { LayoutContext } from '../components/Layout'
 import { getScoreById } from '../scores/registry'
 import NumberInput from '../components/inputs/NumberInput'
 import ToggleInput from '../components/inputs/ToggleInput'
@@ -16,6 +17,15 @@ export default function ScorePage() {
   const scoreDef = getScoreById(id ?? '')
 
   const [values, setValues] = useState<Record<string, number | boolean | string | ''>>({})
+
+  const { setOnReset } = useOutletContext<LayoutContext>()
+
+  const handleReset = useCallback(() => setValues({}), [])
+
+  useEffect(() => {
+    setOnReset(() => handleReset)
+    return () => setOnReset(null)
+  }, [setOnReset, handleReset])
 
   const handleChange = useCallback(
     (key: string, value: number | boolean | string | '') => {
@@ -59,17 +69,6 @@ export default function ScorePage() {
 
   return (
     <div className="py-6">
-      {/* Header */}
-      <div className="mb-6">
-        <div className="flex items-center gap-3">
-          <span className="text-3xl">{scoreDef.icon}</span>
-          <div>
-            <h1 className="text-xl font-black text-gray-900">{scoreDef.name}</h1>
-            <p className="text-sm text-gray-500">{scoreDef.shortDescription}</p>
-          </div>
-        </div>
-      </div>
-
       {/* Sticky result */}
       {result && interpretation && (
         <div className="sticky top-14 z-20 mb-6">

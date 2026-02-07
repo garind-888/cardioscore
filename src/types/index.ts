@@ -1,3 +1,4 @@
+import type { UnitConversion } from '../utils/units'
 import type { ReactNode } from 'react'
 
 export type RiskLevel = 'low' | 'moderate' | 'high'
@@ -19,6 +20,7 @@ export interface NumberInputDef {
   step: number
   placeholder?: string
   inputMode?: 'numeric' | 'decimal'
+  conversion?: UnitConversion
   dependsOn?: DependsOn
 }
 
