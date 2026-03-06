@@ -36,13 +36,13 @@ export const sbpBrackets: Bracket[] = [
 ]
 
 export const creatinineBrackets: Bracket[] = [
-  [0, 0.39, 1],
-  [0.4, 0.79, 4],
-  [0.8, 1.19, 7],
-  [1.2, 1.59, 10],
-  [1.6, 1.99, 13],
-  [2.0, 3.99, 21],
-  [4.0, Infinity, 28],
+  [0, 35, 1],
+  [36, 70, 4],
+  [71, 105, 7],
+  [106, 140, 10],
+  [141, 176, 13],
+  [177, 353, 21],
+  [354, Infinity, 28],
 ]
 
 export const killipPoints: Record<number, number> = {

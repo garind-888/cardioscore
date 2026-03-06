@@ -1,5 +1,4 @@
 import type { ScoreDefinition } from '../../types'
-import { creatinineConversion } from '../../utils/units'
 import { calculateGrace } from './calculate'
 import { interpretGrace } from './interpret'
 
@@ -45,13 +44,11 @@ const graceScore: ScoreDefinition = {
       type: 'number',
       key: 'creatinine',
       label: 'Créatinine sérique',
-      unit: 'mg/dL',
-      min: 0.1,
-      max: 10.0,
-      step: 0.1,
-      inputMode: 'decimal',
+      unit: 'µmol/L',
+      min: 10,
+      max: 880,
+      step: 1,
       placeholder: 'Créat',
-      conversion: creatinineConversion,
     },
     {
       type: 'segment',

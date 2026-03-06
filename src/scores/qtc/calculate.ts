@@ -8,6 +8,7 @@ export interface QtcResults {
   hodges: number
   framingham: number
   rautaharju: number
+  bogossian: number | null
 }
 
 export function calculateQtc(values: Record<string, number | boolean | string>): ScoreResult | null {
@@ -26,6 +27,13 @@ export function calculateQtc(values: Record<string, number | boolean | string>):
   const framingham = Math.round(qtMs + 0.154 * (1000 - rrMs))
   const rautaharju = Math.round(qtMs * (120 + hr) / 180)
 
+  // Bogossian: QTm = QT - 48.5% × QRS, then Bazett on QTm
+  // Only applicable when QRS is provided (bloc de branche)
+  const qrs = values.qrs as number | undefined
+  const bogossian = qrs && qrs > 0
+    ? Math.round((qtMs - 0.485 * qrs) / Math.sqrt(rrS))
+    : null
+
   return {
     score: bazett,
     label: `QT = ${qtMs} ms`,
@@ -37,6 +45,7 @@ export function calculateQtc(values: Record<string, number | boolean | string>):
       hodges,
       framingham,
       rautaharju,
+      bogossian: bogossian ?? '',
     },
   }
 }

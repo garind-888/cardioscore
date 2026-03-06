@@ -66,4 +66,25 @@ describe('QTc Calculator', () => {
     expect(d.framingham).toBe(400)
     expect(d.rautaharju).toBe(400)
   })
+
+  it('bogossian is empty string when QRS is not provided', () => {
+    const result = calculateQtc({ hr: 75, squares: 10 })
+    expect(result?.details?.bogossian).toBe('')
+  })
+
+  it('computes Bogossian correctly with QRS', () => {
+    // HR=60, QT=400ms (10 squares), QRS=160ms, RR=1.0s
+    // QTm = 400 - 0.485 * 160 = 400 - 77.6 = 322.4
+    // Bogossian = 322.4 / sqrt(1.0) = 322
+    const result = calculateQtc({ hr: 60, squares: 10, qrs: 160 })
+    expect(result?.details?.bogossian).toBe(322)
+  })
+
+  it('computes Bogossian with rate correction', () => {
+    // HR=75, QT=400ms (10 squares), QRS=140ms, RR=0.8s
+    // QTm = 400 - 0.485 * 140 = 400 - 67.9 = 332.1
+    // Bogossian = 332.1 / sqrt(0.8) = 332.1 / 0.8944 ≈ 371
+    const result = calculateQtc({ hr: 75, squares: 10, qrs: 140 })
+    expect(result?.details?.bogossian).toBe(371)
+  })
 })

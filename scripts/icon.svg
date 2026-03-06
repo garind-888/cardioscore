@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="heart-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#E0E7FF" stop-opacity="0.9"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="18" flood-color="#1E1B4B" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background with rounded corners -->
+  <rect width="1024" height="1024" rx="224" fill="url(#bg)"/>
+
+  <!-- Subtle grid pattern overlay -->
+  <g opacity="0.06">
+    <line x1="0" y1="256" x2="1024" y2="256" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="512" x2="1024" y2="512" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="768" x2="1024" y2="768" stroke="white" stroke-width="1"/>
+    <line x1="256" y1="0" x2="256" y2="1024" stroke="white" stroke-width="1"/>
+    <line x1="512" y1="0" x2="512" y2="1024" stroke="white" stroke-width="1"/>
+    <line x1="768" y1="0" x2="768" y2="1024" stroke="white" stroke-width="1"/>
+  </g>
+
+  <!-- Heart shape -->
+  <g filter="url(#shadow)" transform="translate(512, 420) scale(1.15)">
+    <path d="M0 80
+      C0 80, -30 -60, -140 -80
+      C-260 -100, -280 60, -260 120
+      C-220 220, -60 320, 0 380
+      C60 320, 220 220, 260 120
+      C280 60, 260 -100, 140 -80
+      C30 -60, 0 80, 0 80Z"
+      fill="url(#heart-grad)" opacity="0.92"/>
+  </g>
+
+  <!-- ECG trace on the heart -->
+  <g transform="translate(512, 460) scale(1.15)">
+    <polyline
+      points="-220,0 -160,0 -130,-8 -100,0 -60,0 -40,-25 -20,120 0,-160 20,80 40,-20 60,0 100,0 130,-8 160,0 220,0"
+      fill="none"
+      stroke="#4F46E5"
+      stroke-width="14"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </g>
+
+  <!-- "CS" text at bottom -->
+  <text x="512" y="880" text-anchor="middle" font-family="system-ui, -apple-system, SF Pro Rounded, Helvetica Neue, sans-serif" font-size="120" font-weight="800" fill="white" opacity="0.95" letter-spacing="8">CS</text>
+</svg>

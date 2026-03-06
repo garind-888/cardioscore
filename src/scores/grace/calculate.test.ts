@@ -14,7 +14,7 @@ describe('GRACE 2.0', () => {
       age: 45,       // 40-49 = 25 pts
       hr: 72,        // 70-89 = 9 pts
       sbp: 130,      // 120-139 = 34 pts
-      creatinine: 0.9, // 0.8-1.19 = 7 pts
+      creatinine: 80, // 71-105 µmol/L = 7 pts
       killip: 1,     // 0 pts
       cardiacArrest: false, // 0
       stDeviation: false,   // 0
@@ -31,7 +31,7 @@ describe('GRACE 2.0', () => {
       age: 82,        // 80-89 = 91 pts
       hr: 115,        // 110-149 = 24 pts
       sbp: 75,        // <80 = 58 pts
-      creatinine: 2.5, // 2.0-3.99 = 21 pts
+      creatinine: 220, // 177-353 µmol/L = 21 pts
       killip: 4,      // 59 pts
       cardiacArrest: true,   // 39 pts
       stDeviation: true,     // 28 pts
@@ -44,7 +44,7 @@ describe('GRACE 2.0', () => {
 
   it('binary flags add correct points', () => {
     const base = {
-      age: 55, hr: 80, sbp: 120, creatinine: 1.0, killip: 1,
+      age: 55, hr: 80, sbp: 120, creatinine: 80, killip: 1,
       cardiacArrest: false, stDeviation: false, elevatedEnzymes: false,
     }
     const baseScore = calculateGrace(base)!.score
@@ -60,7 +60,7 @@ describe('GRACE 2.0', () => {
   })
 
   it('lower SBP gives higher points (inverse)', () => {
-    const base = { age: 55, hr: 80, creatinine: 1.0, killip: 1 }
+    const base = { age: 55, hr: 80, creatinine: 80, killip: 1 }
     const low = calculateGrace({ ...base, sbp: 70 })!.score
     const high = calculateGrace({ ...base, sbp: 180 })!.score
     expect(low).toBeGreaterThan(high)
@@ -68,7 +68,7 @@ describe('GRACE 2.0', () => {
 
   it('includes mortality estimates in details', () => {
     const result = calculateGrace({
-      age: 65, hr: 90, sbp: 130, creatinine: 1.0, killip: 1,
+      age: 65, hr: 90, sbp: 130, creatinine: 80, killip: 1,
       cardiacArrest: false, stDeviation: false, elevatedEnzymes: false,
     })
     expect(result?.details?.inHospitalMortality).toBeDefined()

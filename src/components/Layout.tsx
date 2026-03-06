@@ -28,12 +28,12 @@ export default function Layout() {
       </header>
 
       {/* Content */}
-      <main className="flex-1 px-4 pb-24">
+      <main className="flex-1 px-4 pb-24" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom))' }}>
         <Outlet context={{ setOnReset }} />
       </main>
 
       {/* Bottom Nav */}
-      <nav className="fixed bottom-0 left-0 right-0 z-30 border-t border-gray-200 bg-white/90 backdrop-blur-md">
+      <nav className="fixed bottom-0 left-0 right-0 z-30 border-t border-gray-200 bg-white/90 backdrop-blur-md" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         <div className="mx-auto flex max-w-lg items-stretch justify-around">
           <NavLink
             to="/"
@@ -65,7 +65,7 @@ export default function Layout() {
       </nav>
 
       {/* Disclaimer */}
-      <div className="fixed bottom-16 left-0 right-0 z-20 pointer-events-none">
+      <div className="fixed z-20 pointer-events-none left-0 right-0" style={{ bottom: 'calc(4rem + env(safe-area-inset-bottom))' }}>
         <p className="mx-auto max-w-lg px-4 text-center text-[10px] text-gray-300">
           Usage informatif uniquement — ne remplace pas le jugement clinique
         </p>

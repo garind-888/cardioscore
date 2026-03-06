@@ -35,6 +35,7 @@ export function interpretQtc(result: ScoreResult): Interpretation {
       { label: 'Hodges', value: `${d.hodges} ms`, riskLevel: classifyQtc(d.hodges as number, 'male').level },
       { label: 'Framingham', value: `${d.framingham} ms`, riskLevel: classifyQtc(d.framingham as number, 'male').level },
       { label: 'Rautaharju', value: `${d.rautaharju} ms`, riskLevel: classifyQtc(d.rautaharju as number, 'male').level },
+      ...(d.bogossian !== '' ? [{ label: 'Bogossian (BBB)', value: `${d.bogossian} ms`, riskLevel: classifyQtc(d.bogossian as number, 'male').level }] : []),
     ],
   }
 }
@@ -43,13 +44,19 @@ export function interpretQtcWithSex(result: ScoreResult, sex: string): Interpret
   const d = result.details!
 
   const formulas = ['bazett', 'fridericia', 'hodges', 'framingham', 'rautaharju'] as const
-  const labels = ['Bazett', 'Fridericia', 'Fridericia (FDA)', 'Hodges', 'Framingham', 'Rautaharju']
+  const labels = ['Bazett', 'Fridericia', 'Hodges', 'Framingham', 'Rautaharju']
 
   const extras = formulas.map((f, i) => {
     const val = d[f] as number
     const cls = classifyQtc(val, sex)
     return { label: labels[i], value: `${val} ms`, riskLevel: cls.level }
   })
+
+  if (d.bogossian !== '') {
+    const bogVal = d.bogossian as number
+    const bogCls = classifyQtc(bogVal, sex)
+    extras.push({ label: 'Bogossian (BBB)', value: `${bogVal} ms`, riskLevel: bogCls.level })
+  }
 
   const worstLevel = extras.reduce<RiskLevel>((worst, e) => {
     const order: RiskLevel[] = ['low', 'moderate', 'high']
